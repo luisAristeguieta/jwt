@@ -22,7 +22,7 @@ public class AuthController {
 	public ResponseEntity<?> registrar(@RequestBody Usuario usuario) {
 		try {
 			Usuario nuevo = usuarioService.guardar(usuario);
-			return ResponseEntity.status(HttpStatus.CREATED).body(nuevo); // Mostrara password plano
+			return ResponseEntity.status(HttpStatus.CREATED).body(nuevo); // Mostrara password encriptado
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (Exception e) {

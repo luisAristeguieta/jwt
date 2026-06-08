@@ -1,8 +1,10 @@
 package com.krakedev.jwt.services;
 
+import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.stereotype.Service;
+
 import com.krakedev.jwt.entidades.Usuario;
 import com.krakedev.jwt.repositories.UsuarioRepository;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UsuarioService {
@@ -17,6 +19,11 @@ public class UsuarioService {
         if (usuarioRepository.existsByUsername(usuario.getUsername())) {
             throw new RuntimeException("El username '" + usuario.getUsername() + "' se encuentra registrado");
         }
+        
+     // Encriptar contraseña con BCrypt se agregan: 
+        String passwordEncriptada = BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt());
+        usuario.setPassword(passwordEncriptada);
+        
         return usuarioRepository.save(usuario);
     }
 
