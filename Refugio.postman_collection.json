@@ -135,6 +135,100 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "Acceso exitoso con token ok",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJQYXRpdGFzQWxSZXNjYXRlIiwic3ViIjoiYWRvcHRhbnRlX3BlZHJvIiwiaWF0IjoxNzgwOTYzODk4LCJleHAiOjE3ODA5NjU2OTgsInJvbCI6IlVTRVIifQ.DjDOLJX7g00T9QvOMvsoCKK-PL-vsEoebxIn6_J3lnM",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/auth/perfil",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "auth",
+            "perfil"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Token Fallido",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer bGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJQYXRpdGFzQWxSZXNjYXRlIiwic3ViIjoiYWRvcHRhbnRlX3BlZHJvIiwiaWF0IjoxNzgwOTYzODk4LCJleHAiOjE3ODA5NjU2OTgsInJvbCI6IlVTRVIifQ.DjDOLJX7g00T9QvOMvsoCKK-PL-vsEoebxIn6_J3lnM",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/auth/perfil?",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "auth",
+            "perfil"
+          ],
+          "query": [
+            {
+              "key": "",
+              "value": null,
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Sin header",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/auth/perfil?",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "auth",
+            "perfil"
+          ],
+          "query": [
+            {
+              "key": "",
+              "value": null
+            }
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }
