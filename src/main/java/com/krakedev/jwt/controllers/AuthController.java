@@ -1,12 +1,17 @@
 package com.krakedev.jwt.controllers;
 
-import com.krakedev.jwt.entidades.Usuario;
-import com.krakedev.jwt.services.UsuarioService;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import com.krakedev.jwt.entidades.Usuario;
+import com.krakedev.jwt.services.UsuarioService;
+import com.krakedev.jwt.utils.JwtUtil;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -37,8 +42,10 @@ public class AuthController {
 
 		try {
 			Usuario usuario = usuarioService.autenticar(username, password);
+			// Generar token JWT
+			String token = JwtUtil.generarToken(usuario.getUsername(), usuario.getRol());
 			return ResponseEntity
-					.ok(Map.of("mensaje", "Login exitoso", "username", usuario.getUsername(), "rol", usuario.getRol()));
+					.ok(Map.of("token", token, "username", usuario.getUsername(), "rol", usuario.getRol()));
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
 		}

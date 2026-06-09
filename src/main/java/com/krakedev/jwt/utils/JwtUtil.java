@@ -10,31 +10,38 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 
-public class JwtUtil {
+public class JwtUtil { 
 
-	private static final Logger log = LogManager.getLogger(JwtUtil.class);
+    private static final Logger log = LogManager.getLogger(JwtUtil.class);
+    
+    private static final String CLAVE_SECRETA = "PatitasAlRescate2024_SeguridadJWT_ClaveSuperSegura!";
+    private static final String EMISOR = "PatitasAlRescate";
+    private static final long TIEMPO_EXPIRACION = 1800000; // 30 minutos
 
-	private static final String CLAVE_SECRETA = "PatitasAlRescate2024_SeguridadJWT_ClaveSuperSegura!";
-	private static final String EMISOR = "PatitasAlRescate";
-	private static final long TIEMPO_EXPIRACION = 1800000; // 30 minutos
+    public static String generarToken(String username, String rol) {
+        Algorithm algoritmo = Algorithm.HMAC256(CLAVE_SECRETA);
+        long tiempoActual = System.currentTimeMillis();
+        Date fechaExpiracion = new Date(tiempoActual + TIEMPO_EXPIRACION);
 
-	public static String generarToken(String username, String rol) {
-		Algorithm algoritmo = Algorithm.HMAC256(CLAVE_SECRETA);
-		long tiempoActual = System.currentTimeMillis();
-		Date fechaExpiracion = new Date(tiempoActual + TIEMPO_EXPIRACION);
-
-		return JWT.create().withIssuer(EMISOR).withSubject(username).withIssuedAt(new Date(tiempoActual))
-				.withExpiresAt(fechaExpiracion).withClaim("rol", rol).sign(algoritmo);
-	}
-
-	public static DecodedJWT validarToken(String token) {
-		try {
-			Algorithm algorithm = Algorithm.HMAC256(CLAVE_SECRETA);
-			JWTVerifier verificador = JWT.require(algorithm).withIssuer(EMISOR).build();
-			return verificador.verify(token);
-		} catch (Exception e) {
-			log.error("Error de validación del Token: " + e.getMessage());
-			return null;
-		}
-	}
+        return JWT.create()
+                .withIssuer(EMISOR)
+                .withSubject(username)
+                .withIssuedAt(new Date(tiempoActual))
+                .withExpiresAt(fechaExpiracion)
+                .withClaim("rol", rol)
+                .sign(algoritmo);
+    }
+    
+    public static DecodedJWT validarToken(String token) {  
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(CLAVE_SECRETA);
+            JWTVerifier verificador = JWT.require(algorithm)
+                    .withIssuer(EMISOR)
+                    .build();
+            return verificador.verify(token);
+        } catch (Exception e) {
+            log.error("Error de validación del Token: " + e.getMessage());
+            return null;
+        }
+    }
 }
